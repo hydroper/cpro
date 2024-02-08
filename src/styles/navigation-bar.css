@@ -1,0 +1,21 @@
+#navigationBar {
+    display: flex;
+    flex-direction: row;
+    gap: calc(0.25rem * 10);
+    padding: calc(0.25rem * 4);
+}
+
+#navigationBar #logo {
+    font-family: var(--title-font);
+    font-size: calc(0.25rem * 5);
+    font-weight: lighter;
+}
+
+.navigation-bar-button {
+    background: none;
+    border: none;
+    color: var(--foreground);
+    font-family: var(--title-font);
+    font-size: calc(0.25rem * 3);
+    font-weight: lighter;
+}
