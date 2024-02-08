@@ -20,3 +20,7 @@ Basics:
 Special cases:
 
 * [ ] When two tabs have are files with the same filename, automatically split the editor for the respective directories.
+
+## Building
+
+Hydroper© Scripting is developed with [Electron Forge](https://electronforge.io).
