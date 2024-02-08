@@ -27,7 +27,15 @@ class Main {
         });
 
         ipcMain.on("request-maximize", e => {
-            BrowserWindow.getFocusedWindow()?.maximize();
+            const window = BrowserWindow.getFocusedWindow();
+            if (window == null) {
+                return;
+            }
+            if (window.isMaximized()) {
+                window.unmaximize();
+            } else {
+                window.maximize();
+            }
         });
 
         ipcMain.on("request-close", e => {
