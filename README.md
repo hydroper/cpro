@@ -1,6 +1,6 @@
 # Hydroper© Scripting
 
-Hydroper© Scripting is an integrated development environment as an alternative to Visual Studio Code.
+Hydroper© Scripting is an integrated development environment featuring new user interface skins.
 
 ## Work in progress
 

@@ -1,6 +1,7 @@
 .silver-theme {
     --background-start: #6e6e95;
     --background-end: #454545;
+    --background: var(--background-end);
     --foreground: #fff;
     --font: Cambria, Palatino Linotype, Palatino, Liberation Serif, serif;
     --title-font: "Noto Sans";

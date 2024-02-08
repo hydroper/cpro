@@ -7,6 +7,13 @@ html {
     user-select: none;
 }
 
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 h1, h2, h3 {
     font-family: var(--title-font);
     font-weight: lighter;
@@ -19,4 +26,27 @@ h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
 
 code, pre {
     font-family: var(--code-font);
+}
+
+button {
+    outline: 0;
+    border: none;
+    background: none;
+}
+
+html::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+html::-webkit-scrollbar,
+html::-webkit-scrollbar-track,
+html::-webkit-scrollbar-button {
+    background: var(--background);
+}
+
+html::-webkit-scrollbar-thumb {
+    background: var(--foreground);
+    border-radius: 5px;
+    opacity: 0.4;
 }

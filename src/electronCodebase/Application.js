@@ -1,4 +1,4 @@
-const { app: application, BrowserWindow } = require("electron");
+const { app: application, ipcMain, BrowserWindow } = require("electron");
 const path = require("path");
 
 class Main {
@@ -21,6 +21,18 @@ class Main {
             },
         });
         window.loadFile("src/index.html");
+
+        ipcMain.on("request-minimize", e => {
+            BrowserWindow.getFocusedWindow()?.minimize();
+        });
+
+        ipcMain.on("request-maximize", e => {
+            BrowserWindow.getFocusedWindow()?.maximize();
+        });
+
+        ipcMain.on("request-close", e => {
+            application.quit();
+        });
     }
 }
 
