@@ -1,4 +1,5 @@
 const { app: application, BrowserWindow } = require("electron");
+const path = require("path");
 
 class Main {
     constructor() {
@@ -14,6 +15,10 @@ class Main {
             menuBarVisible: false,
             autoHideMenuBar: true,
             titleBarStyle: "hidden",
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: false,
+            },
         });
         window.loadFile("src/index.html");
     }

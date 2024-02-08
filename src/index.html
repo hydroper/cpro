@@ -6,15 +6,22 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <title>Hydroper Scripting</title>
     <link href="styles.css" rel="stylesheet">
+    <script type="module" src="browserCodebase/Application.js" defer></script>
 </head>
 <body>
     <header>
         <div id="navigationBar">
-            <div id="logo">Scripting</div>
-            <button class="navigation-bar-button" id="file">File</button>
-            <button class="navigation-bar-button" id="edit">Edit</button>
-            <button class="navigation-bar-button" id="select">Select</button>
-            <button class="navigation-bar-button" id="view">View</button>
+            <div id="left">
+                <div id="logo">Scripting</div>
+                <button class="navigation-bar-button" id="file">File</button>
+                <button class="navigation-bar-button" id="edit">Edit</button>
+                <button class="navigation-bar-button" id="select">Select</button>
+                <button class="navigation-bar-button" id="view">View</button>
+                <button class="navigation-bar-button" id="help">Help</button>
+            </div>
+            <div id="right">
+                <button class="navigation-bar-button" id="close">✕</button>
+            </div>
         </div>
     </header>
 </body>

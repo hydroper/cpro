@@ -2,7 +2,7 @@
   "name": "hydroper-scripting",
   "version": "1.0.0",
   "description": "Hydroper Scripting",
-  "main": "src/Main.js",
+  "main": "src/electronCodebase/Application.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
