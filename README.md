@@ -1,19 +1,21 @@
-# Hydroper© Scripting
+<p align="center">
+  <img src="assets/screenshot-1.png" width="721">
+</p>
 
-Hydroper© Scripting is an integrated development environment featuring new user interface skins.
+Hydroper© Scripting will be a coding environment featuring new user interface skins. It should function near to Visual Studio Code, but more simplistic.
 
-## Work in progress
+It is not by any means near done nor usable in any way as is.
 
-Hydroper© Scripting is not done and is uninitiated in the present. Do not take it seriously, but I may work in the project anytime.
+## Tasks
 
-Right now:
+On-going:
 
-* [ ] Trying to finish context menus for the user interface, but they have the following bugs currently:
-  * Actions only work when clicked with Enter
-  * Actions do not work when clicking with the device pointer
-  * Click on a list item closes the context menu modal
+* [ ] User interface: `ContextMenu`
+  * **Bug**: Actions only work when clicked with Enter
+  * **Bug**: Actions do not work when clicking with the device pointer
+  * **Bug**: Click on a list item closes the context menu modal
 
-Basics:
+Not on-going yet:
 
 * [ ] Workspaces
 * [ ] Version control
@@ -31,3 +33,7 @@ Special cases:
 ## Building
 
 Hydroper© Scripting is developed with [Electron Forge](https://electronforge.io).
+
+## License
+
+Apache 2.0, copyright © Hydroper 2024
