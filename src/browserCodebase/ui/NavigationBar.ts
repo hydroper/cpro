@@ -1,13 +1,17 @@
 const { ipcRenderer } = require("electron");
 
-export class HeaderNavigation {
-    private navigationBar: HTMLElement;
-    private minimizeButton: HTMLElement | null;
-    private maximizeButton: HTMLElement | null;
-    private closeButton: HTMLElement;
+export class NavigationBar {
+    public navigationBar: HTMLElement;
+    public left: HTMLElement;
+    public right: HTMLElement;
+    public minimizeButton: HTMLElement | null;
+    public maximizeButton: HTMLElement | null;
+    public closeButton: HTMLElement;
 
     public constructor(navigationBar: HTMLElement) {
         this.navigationBar = navigationBar;
+        this.left = this.navigationBar.querySelector("#left")!;
+        this.right = this.navigationBar.querySelector("#left")!;
 
         // Minimize button
         this.minimizeButton = this.navigationBar.querySelector("#minimize");
