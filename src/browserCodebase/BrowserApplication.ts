@@ -24,7 +24,9 @@ class BrowserApplication {
             new ContextMenu([
                 new ContextMenuItem({
                     title: "New blank file",
-                    action: () => {},
+                    action: () => {
+                        alert("New blank file");
+                    },
                 }),
                 new ContextMenuItem({
                     title: "New project...",

@@ -22,6 +22,10 @@
     text-align: left;
 }
 
+.context-menu button:disabled {
+    opacity: 0.2;
+}
+
 .context-menu button:focus {
     opacity: 1;
 }

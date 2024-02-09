@@ -4,7 +4,14 @@ Hydroper© Scripting is an integrated development environment featuring new user
 
 ## Work in progress
 
-Hydroper© Scripting is not done and is uninitiated in the present.
+Hydroper© Scripting is not done and is uninitiated in the present. Do not take it seriously, but I may work in the project anytime.
+
+Right now:
+
+* [ ] Trying to finish context menus for the user interface, but they have the following bugs currently:
+  * Actions only work when clicked with Enter
+  * Actions do not work when clicking with the device pointer
+  * Click on a list item closes the context menu modal
 
 Basics:
 

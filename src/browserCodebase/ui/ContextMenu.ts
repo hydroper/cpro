@@ -1,9 +1,10 @@
-import { focusNextElement, focusPrevElement } from 'focus-lock';
+import { focusNextElement, focusPrevElement } from "focus-lock";
 import { Input, inputActionDisplayText } from "../input";
 
 export class ContextMenu {
     private modal: HTMLElement;
     private readonly openLists: HTMLElement[] = [];
+    private readonly domToItemListDescription = new Map<HTMLElement, Object[]>;
     private handleEscapeKey: Function;
     private handlePressedInput: Function;
     private handleWindowMouseDown: Function;
@@ -62,6 +63,7 @@ export class ContextMenu {
         });
         this.modal.appendChild(renderedList);
         this.openLists.push(renderedList);
+        this.domToItemListDescription.set(renderedList, itemList);
 
         // Render items
         for (const item of itemList) {
@@ -98,20 +100,20 @@ export class ContextMenu {
         renderedList.style.top = finalY + "px";
 
         // Focus first button
-        if (this.openLists.length == 1) {
-            setTimeout(() => {
-                focusNextElement(renderedList.lastElementChild!, {
-                    scope: renderedList,
-                });
-            }, 10);
-        }
+        setTimeout(() => {
+            focusNextElement(renderedList.lastElementChild!, {
+                scope: renderedList,
+            });
+        }, 10);
 
         return renderedList;
     }
 
     private renderItem(item: Object, openListsLengthUntilParentList: number): HTMLElement {
         if (item instanceof ContextMenuItem) {
+            const parentList = this.openLists[this.openLists.length - 1];
             const renderedItem = document.createElement("button");
+            renderedItem.disabled = item.disabled;
             const listCharacter = item.list != null ? "&gt;" : "";
             const shortcut = item.shortcutAction != null ? inputActionDisplayText(Input.input.getActions()[item.shortcutAction!]) : "";
             renderedItem.innerHTML = `<ul><span class="title">${item.title}</span><span class="right"><span class="shortcut">${shortcut}</span><span class="list">${listCharacter}</span></span></ul>`;
@@ -120,33 +122,17 @@ export class ContextMenu {
             });
             if (item.list != null) {
                 renderedItem.addEventListener("focus", e => {
-                    for (let list of this.openLists.slice(openListsLengthUntilParentList)) {
-                        list.remove();
-                    }
-                    this.openLists.length = openListsLengthUntilParentList;
-                    let blurTimeout: any = undefined;
-                    const subrenderedList = this.renderItemList(item.list!, this.openLists[this.openLists.length - 1], false);
-                    subrenderedList.addEventListener("mouseout", e => {
-                        if (blurTimeout !== undefined) {
-                            clearTimeout(blurTimeout);
-                        }
-                        blurTimeout = setTimeout(() => {
-                            if (subrenderedList.parentElement != null) {
-                                this.escape();
-                            }
-                        }, 1_000);
-                    });
-                    subrenderedList.addEventListener("mousemove", e => {
-                        if (blurTimeout !== undefined) {
-                            clearTimeout(blurTimeout);
-                        }
-                    });
+                    parentList.setAttribute("data-focused-index", Array.from(parentList.children).indexOf(renderedItem).toString());
+                });
+                renderedItem.addEventListener("click", e => {
+                    this.openSubItemList(item, openListsLengthUntilParentList);
+                });
+            } else {
+                renderedItem.addEventListener("click", e => {
+                    this.destroy();
+                    item.action?.();
                 });
             }
-            renderedItem.addEventListener("click", e => {
-                this.destroy();
-                item.action?.();
-            });
             return renderedItem;
         } else if (item instanceof ContextMenuSeparator) {
             const renderedItem = document.createElement("div");
@@ -155,6 +141,30 @@ export class ContextMenu {
         } else {
             throw new Error("Unmatched item");
         }
+    }
+
+    private openSubItemList(item: ContextMenuItem, openListsLengthUntilParentList: number): void {
+        for (let list of this.openLists.slice(openListsLengthUntilParentList)) {
+            list.remove();
+        }
+        this.openLists.length = openListsLengthUntilParentList;
+        let blurTimeout: any = undefined;
+        const subrenderedList = this.renderItemList(item.list!, this.openLists[this.openLists.length - 1], false);
+        subrenderedList.addEventListener("mouseout", e => {
+            if (blurTimeout !== undefined) {
+                clearTimeout(blurTimeout);
+            }
+            blurTimeout = setTimeout(() => {
+                if (subrenderedList.parentElement != null) {
+                    this.escape();
+                }
+            }, 1_000);
+        });
+        subrenderedList.addEventListener("mousemove", e => {
+            if (blurTimeout !== undefined) {
+                clearTimeout(blurTimeout);
+            }
+        });
     }
 
     private destroy(): void {
@@ -175,26 +185,62 @@ export class ContextMenu {
         } else {
             setTimeout(() => {
                 const list = this.openLists[this.openLists.length - 1];
-                focusNextElement(list.lastElementChild!, {
-                    scope: list,
-                });
+                const lastFocusedIndex = list.getAttribute("data-focused-index");
+                if (lastFocusedIndex != null) {
+                    setTimeout(() => {
+                        (list.children[Number(lastFocusedIndex)] as HTMLElement).focus();
+                    }, 10);
+                }
             }, 10);
         }
     }
 
     private arrowNavigation(): void {
         if (Input.input.isPressed("uiLeft")) {
-            //
+            // Left
+            this.escape();
         } else if (Input.input.isPressed("uiRight")) {
-            //
+            // Right
+            if (document.activeElement == null) {
+                return;
+            }
+            const renderedItemList = document.activeElement!.parentElement!;
+            if (renderedItemList.parentElement == this.modal) {
+                const renderedItemIndex = Array.from(renderedItemList.children).indexOf(document.activeElement!);
+                const abstractItemList = this.domToItemListDescription.get(renderedItemList)!;
+                const listIndex = this.openLists.indexOf(renderedItemList);
+                const openListsLengthUntilParentList = listIndex + 1;
+                const item = abstractItemList.find((value, index) => {
+                    return index == renderedItemIndex;
+                })! as ContextMenuItem;
+                if (item.list != null) {
+                    this.openSubItemList(item, openListsLengthUntilParentList);
+                }
+            }
         } else if (Input.input.isPressed("uiUp") && document.activeElement != null) {
-            focusPrevElement(document.activeElement!, {
-                scope: this.modal,
-            });
+            // Up
+            if (document.activeElement == null) {
+                return;
+            }
+            const renderedItemList = document.activeElement!.parentElement!;
+
+            if (renderedItemList.parentElement == this.modal) {
+                focusPrevElement(document.activeElement!, {
+                    scope: renderedItemList,
+                });
+            }
         } else if (Input.input.isPressed("uiDown") && document.activeElement != null) {
-            focusNextElement(document.activeElement!, {
-                scope: this.modal,
-            });
+            // Down
+            if (document.activeElement == null) {
+                return;
+            }
+            const renderedItemList = document.activeElement!.parentElement!;
+
+            if (renderedItemList.parentElement == this.modal) {
+                focusNextElement(document.activeElement!, {
+                    scope: renderedItemList,
+                });
+            }
         }
     }
 }
@@ -206,12 +252,14 @@ export class ContextMenuItem {
     public action: (() => void) | null;
     public list: Object[] | null;
     public shortcutAction: string | null;
+    public disabled: boolean;
 
     public constructor(options: ContextMenuItemOptions) {
         this.title = options.title;
         this.action = options.action || null;
         this.list = options.list || null;
         this.shortcutAction = options.shortcutAction || null;
+        this.disabled = options.disabled === undefined ? false : !!options.disabled;
     }
 }
 
@@ -220,4 +268,5 @@ export type ContextMenuItemOptions = {
     action?: () => void,
     list?: Object[],
     shortcutAction?: string,
+    disabled?: boolean,
 };
