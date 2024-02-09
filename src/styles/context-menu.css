@@ -27,9 +27,10 @@
 }
 
 .context-menu button > ul {
-    display: inline-flex;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;

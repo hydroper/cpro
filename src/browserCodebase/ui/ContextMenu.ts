@@ -1,3 +1,4 @@
+import { focusNextElement, focusPrevElement } from 'focus-lock';
 import { Input } from "../input";
 
 export class ContextMenu {
@@ -20,12 +21,6 @@ export class ContextMenu {
         this.modal.addEventListener("mousedown", e => {
             this.destroy();
         });
-        this.modal.addEventListener("mouseleave", e => {
-            window.addEventListener("mousedown", this.handleWindowMouseDown as any);
-        });
-        this.modal.addEventListener("mouseenter", e => {
-            window.removeEventListener("mousedown", this.handleWindowMouseDown as any);
-        });
         document.body.appendChild(this.modal);
 
         const headerNavigationBar = document.querySelector("header > #navigationBar")!;
@@ -42,12 +37,19 @@ export class ContextMenu {
             this.arrowNavigation();
         };
 
-        this.handleWindowMouseDown = (evt: Event): void => {
-            this.destroy();
+        this.handleWindowMouseDown = (evt: MouseEvent): void => {
+            const r = this.modal.getBoundingClientRect();
+            if (evt.clientX < r.x || evt.clientX > r.x + r.width
+            || evt.clientY < r.y || evt.clientY > r.y + r.height) {
+                this.destroy();
+            }
         };
 
         this.renderItemList(itemList, position, bottomPosition);
 
+        setTimeout(() => {
+            window.addEventListener("mousedown", this.handleWindowMouseDown as any);
+        }, 50);
         window.addEventListener("keydown", this.handleEscapeKey as any);
         Input.input.addEventListener("inputPressed", this.handlePressedInput as any);
     }
@@ -79,7 +81,7 @@ export class ContextMenu {
             } else {
                 finalX = positionRect.x + positionRect.width;
                 finalX = finalX > window.innerWidth ? positionRect.x - renderedRect.width : finalX;
-                finalY = positionRect.y;
+                finalY = positionRect.y + positionRect.height / 2 - renderedRect.height / 2;
             }
         } else if (position instanceof MouseEvent) {
             finalX = position.clientX;
@@ -94,6 +96,16 @@ export class ContextMenu {
         finalY = finalY > window.innerHeight ? window.innerHeight - renderedRect.height : finalY;
         renderedList.style.left = finalX + "px";
         renderedList.style.top = finalY + "px";
+
+        // Focus first button
+        if (this.openLists.length == 1) {
+            setTimeout(() => {
+                focusNextElement(renderedList.lastElementChild!, {
+                    scope: renderedList,
+                });
+            }, 10);
+        }
+
         return renderedList;
     }
 
@@ -101,7 +113,7 @@ export class ContextMenu {
         if (item instanceof ContextMenuItem) {
             const renderedItem = document.createElement("button");
             const listCharacter = item.list != null ? "&gt;" : "";
-            renderedItem.innerHTML = `<ul><span class="title">${item.title}</span><span><span class="shortcut"></span><span class="list">${listCharacter}</span></span></ul>`;
+            renderedItem.innerHTML = `<ul><span class="title">${item.title}</span><span class="right"><span class="shortcut"></span><span class="list">${listCharacter}</span></span></ul>`;
             renderedItem.addEventListener("mouseover", e => {
                 renderedItem.focus();
             });
@@ -113,7 +125,7 @@ export class ContextMenu {
                     this.openLists.length = openListsLengthUntilParentList;
                     let blurTimeout: any = undefined;
                     const subrenderedList = this.renderItemList(item.list!, this.openLists[this.openLists.length - 1], false);
-                    subrenderedList.addEventListener("mouseleave", e => {
+                    subrenderedList.addEventListener("mouseout", e => {
                         if (blurTimeout !== undefined) {
                             clearTimeout(blurTimeout);
                         }
@@ -123,7 +135,7 @@ export class ContextMenu {
                             }
                         }, 1_000);
                     });
-                    subrenderedList.addEventListener("mouseenter", e => {
+                    subrenderedList.addEventListener("mousemove", e => {
                         if (blurTimeout !== undefined) {
                             clearTimeout(blurTimeout);
                         }
@@ -155,9 +167,17 @@ export class ContextMenu {
     }
 
     private escape(): void {
-        this.openLists.pop();
+        const list = this.openLists.pop();
+        list!.remove();
         if (this.openLists.length == 0) {
             this.destroy();
+        } else {
+            setTimeout(() => {
+                const list = this.openLists[this.openLists.length - 1];
+                focusNextElement(list.lastElementChild!, {
+                    scope: list,
+                });
+            }, 10);
         }
     }
 
@@ -166,10 +186,14 @@ export class ContextMenu {
             //
         } else if (Input.input.isPressed("uiRight")) {
             //
-        } else if (Input.input.isPressed("uiUp")) {
-            //
-        } else if (Input.input.isPressed("uiDown")) {
-            //
+        } else if (Input.input.isPressed("uiUp") && document.activeElement != null) {
+            focusPrevElement(document.activeElement!, {
+                scope: this.modal,
+            });
+        } else if (Input.input.isPressed("uiDown") && document.activeElement != null) {
+            focusNextElement(document.activeElement!, {
+                scope: this.modal,
+            });
         }
     }
 }
@@ -177,14 +201,12 @@ export class ContextMenu {
 export class ContextMenuSeparator {}
 
 export class ContextMenuItem {
-    public id: string;
     public title: string;
     public action: (() => void) | null;
     public list: Object[] | null;
     public shortcutAction: string | null;
 
     public constructor(options: ContextMenuItemOptions) {
-        this.id = options.id;
         this.title = options.title;
         this.action = options.action || null;
         this.list = options.list || null;
@@ -193,7 +215,6 @@ export class ContextMenuItem {
 }
 
 export type ContextMenuItemOptions = {
-    id: string,
     title: string,
     action?: () => void,
     list?: Object[],
