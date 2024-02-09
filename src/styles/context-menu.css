@@ -2,9 +2,44 @@
     position: fixed;
     left: 0;
     right: 0;
-    top: 0;
     bottom: 0;
 }
 
 .context-menu {
+    position: fixed;
+    display: inline-flex;
+    flex-direction: column;
+    background: var(--background);
+    border-radius: 10px;
+    filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.2));
+    padding: 5px;
+    min-width: calc(0.25rem * 45);
+}
+
+.context-menu button {
+    padding: 10px;
+    opacity: 0.7;
+    text-align: left;
+}
+
+.context-menu button:focus {
+    opacity: 1;
+}
+
+.context-menu button > ul {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.context-menu button .list {
+    width: calc(0.25rem * 5);
+    height: calc(0.25rem * 5);
+}
+
+.context-menu-separator {
+    padding: 2px;
 }

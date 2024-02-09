@@ -1,4 +1,4 @@
-import clonePlainObject from "src/util/clonePlainObject";
+import clonePlainObject from "../../util/clonePlainObject";
 import { InputActionAtom, InputActionKey, InputActionKeyName, navigatorKeyToThis } from "./InputAction";
 import assert from "assert";
 

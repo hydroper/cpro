@@ -29,8 +29,6 @@
 }
 
 .navigation-bar-button {
-    background: none;
-    border: none;
     color: var(--foreground);
     font-family: var(--title-font);
     font-size: calc(0.25rem * 3);
