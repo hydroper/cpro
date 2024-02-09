@@ -36,6 +36,13 @@
     padding: 0;
 }
 
+.context-menu button .right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
 .context-menu button .list {
     width: calc(0.25rem * 5);
     height: calc(0.25rem * 5);

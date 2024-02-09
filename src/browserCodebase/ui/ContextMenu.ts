@@ -1,5 +1,5 @@
 import { focusNextElement, focusPrevElement } from 'focus-lock';
-import { Input } from "../input";
+import { Input, inputActionDisplayText } from "../input";
 
 export class ContextMenu {
     private modal: HTMLElement;
@@ -113,7 +113,8 @@ export class ContextMenu {
         if (item instanceof ContextMenuItem) {
             const renderedItem = document.createElement("button");
             const listCharacter = item.list != null ? "&gt;" : "";
-            renderedItem.innerHTML = `<ul><span class="title">${item.title}</span><span class="right"><span class="shortcut"></span><span class="list">${listCharacter}</span></span></ul>`;
+            const shortcut = item.shortcutAction != null ? inputActionDisplayText(Input.input.getActions()[item.shortcutAction!]) : "";
+            renderedItem.innerHTML = `<ul><span class="title">${item.title}</span><span class="right"><span class="shortcut">${shortcut}</span><span class="list">${listCharacter}</span></span></ul>`;
             renderedItem.addEventListener("mouseover", e => {
                 renderedItem.focus();
             });
