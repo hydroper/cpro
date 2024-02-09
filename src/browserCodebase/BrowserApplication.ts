@@ -4,7 +4,7 @@ class BrowserApplication {
     private headerNavigation: HeaderNavigation;
 
     public constructor() {
-        this.headerNavigation = new HeaderNavigation;
+        this.headerNavigation = new HeaderNavigation(document.querySelector("#navigationBar")!);
     }
 }
 

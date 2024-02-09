@@ -1,4 +1,4 @@
-import { app as application, ipcMain, BrowserWindow } from "electron";
+import { app as application, ipcMain, BrowserWindow, IpcMainInvokeEvent } from "electron";
 import path from "path";
 
 class MainApplication {
@@ -15,8 +15,7 @@ class MainApplication {
         ipcMain.on("request-minimize", e => {
             BrowserWindow.getFocusedWindow()?.minimize();
         });
-
-        ipcMain.on("request-maximize", e => {
+        ipcMain.on("request-maximize-or-unmaximize", e => {
             const window = BrowserWindow.getFocusedWindow();
             if (window == null) {
                 return;
@@ -27,10 +26,17 @@ class MainApplication {
                 window.maximize();
             }
         });
-
         ipcMain.on("request-close", e => {
             application.quit();
         });
+
+        /*
+        ipcMain.handle("current-window-position", async(event: IpcMainInvokeEvent): Promise<number[]> =>
+            BrowserWindow.getFocusedWindow()!.getPosition());
+        ipcMain.handle("set-current-window-position", async(event: IpcMainInvokeEvent, position: number[]): Promise<void> => {
+            BrowserWindow.getFocusedWindow()?.setPosition(position[0], position[1]);
+        });
+        */
     }
 
     createWindow() {
