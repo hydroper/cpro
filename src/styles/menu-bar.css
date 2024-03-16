@@ -24,11 +24,11 @@
 
 #menuBar #logo {
     font-family: var(--title-font);
-    font-size: calc(0.25rem * 5);
+    font-size: calc(0.25rem * 4);
     font-weight: lighter;
 }
 
-.navigation-bar-button {
+.menu-bar-button {
     color: var(--foreground);
     font-family: var(--title-font);
     font-size: calc(0.25rem * 3);
