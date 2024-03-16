@@ -1,1 +1,1 @@
-import "./electronCodebase/MainApplication";
+import "./electron/MainApplication";

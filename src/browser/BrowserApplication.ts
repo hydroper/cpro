@@ -11,7 +11,7 @@ class BrowserApplication {
 
     private initializeMainWindow(): void {
         this.navigationBar.left.innerHTML = `
-            <div id="logo">Scripting</div>
+            <div id="logo">CPRO</div>
             <button class="navigation-bar-button" id="file">File</button>
             <button class="navigation-bar-button" id="edit">Edit</button>
             <button class="navigation-bar-button" id="select">Select</button>

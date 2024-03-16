@@ -1,1 +1,1 @@
-import "./browserCodebase/BrowserApplication";
+import "./browser/BrowserApplication";

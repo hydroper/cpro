@@ -1,8 +1,8 @@
 {
-  "name": "hydroper-scripting",
-  "productName": "hydroper-scripting",
+  "name": "hydroper-cpro",
+  "productName": "hydroper-cpro",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "CPRO",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",

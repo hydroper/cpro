@@ -1,11 +1,3 @@
-<p align="center">
-  <img src="assets/screenshot-1.png" width="721">
-</p>
-
-Hydroper© Scripting will be a coding environment featuring new user interface skins. It should function near to Visual Studio Code, but more simplistic.
-
-It is not by any means near done nor usable in any way as is.
-
 ## Tasks
 
 On-going:
@@ -33,7 +25,7 @@ Special cases:
 
 ## Building
 
-Hydroper© Scripting is developed with [Electron Forge](https://electronforge.io).
+Hydroper© CPRO is developed with [Electron Forge](https://electronforge.io).
 
 ## License
 
