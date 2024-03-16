@@ -1,32 +1,32 @@
 const { ipcRenderer } = require("electron");
 
-export class NavigationBar {
-    public navigationBar: HTMLElement;
+export class MenuBar {
+    public menuBar: HTMLElement;
     public left: HTMLElement;
     public right: HTMLElement;
     public minimizeButton: HTMLElement | null;
     public maximizeButton: HTMLElement | null;
     public closeButton: HTMLElement;
 
-    public constructor(navigationBar: HTMLElement) {
-        this.navigationBar = navigationBar;
-        this.left = this.navigationBar.querySelector("#left")!;
-        this.right = this.navigationBar.querySelector("#left")!;
+    public constructor(menuBar: HTMLElement) {
+        this.menuBar = menuBar;
+        this.left = this.menuBar.querySelector("#left")!;
+        this.right = this.menuBar.querySelector("#left")!;
 
         // Minimize button
-        this.minimizeButton = this.navigationBar.querySelector("#minimize");
+        this.minimizeButton = this.menuBar.querySelector("#minimize");
         this.minimizeButton?.addEventListener("click", e => {
             ipcRenderer.send("request-minimize");
         });
 
         // Maximize button
-        this.maximizeButton = this.navigationBar.querySelector("#maximize");
+        this.maximizeButton = this.menuBar.querySelector("#maximize");
         this.maximizeButton?.addEventListener("click", e => {
             ipcRenderer.send("request-maximize-or-unmaximize");
         });
 
         // Close button
-        this.closeButton = this.navigationBar.querySelector("#close")!;
+        this.closeButton = this.menuBar.querySelector("#close")!;
         this.closeButton.addEventListener("click", e => {
             ipcRenderer.send("request-close");
         });

@@ -1,7 +1,7 @@
 import { app as application, ipcMain, BrowserWindow, IpcMainInvokeEvent } from "electron";
 import path from "path";
 
-class MainApplication {
+class CPRO {
     constructor() {
         // Handle creating or removing shortcuts on Windows when installing or uninstalling.
         if (require("electron-squirrel-startup")) {
@@ -61,4 +61,4 @@ class MainApplication {
     }
 }
 
-new MainApplication;
+new CPRO;

@@ -1,27 +1,28 @@
-import { NavigationBar } from "./ui/NavigationBar";
+import { MenuBar } from "../ui/MenuBar";
 import { ContextMenu, ContextMenuItem, ContextMenuSeparator } from "com.hydroper.webcontextmenu";
 
-class BrowserApplication {
-    private navigationBar: NavigationBar;
+export class MainWindow {
+    private menuBar: MenuBar;
 
-    public constructor() {
-        this.navigationBar = new NavigationBar(document.querySelector("#navigationBar")!);
-        this.initializeMainWindow();
+    public constructor(menuBar: MenuBar) {
+        this.menuBar = menuBar;
+        this.initialize();
     }
 
-    private initializeMainWindow(): void {
-        this.navigationBar.left.innerHTML = `
+    private initialize(): void {
+        this.menuBar.left.innerHTML = `
             <div id="logo">CPRO</div>
-            <button class="navigation-bar-button" id="file">File</button>
-            <button class="navigation-bar-button" id="edit">Edit</button>
-            <button class="navigation-bar-button" id="select">Select</button>
-            <button class="navigation-bar-button" id="view">View</button>
-            <button class="navigation-bar-button" id="help">Help</button>
+            <button class="menu-bar-button" id="file">File</button>
+            <button class="menu-bar-button" id="edit">Edit</button>
+            <button class="menu-bar-button" id="select">Select</button>
+            <button class="menu-bar-button" id="view">View</button>
+            <button class="menu-bar-button" id="help">Help</button>
         `;
 
-        const fileButton = this.navigationBar.left.querySelector("#file")!;
+        const fileButton = this.menuBar.left.querySelector("#file")!;
         fileButton.addEventListener("mousedown", e => {
             new ContextMenu({
+                menuBar: this.menuBar.menuBar,
                 items: [
                     new ContextMenuItem({
                         title: "New blank file",
@@ -75,7 +76,3 @@ class BrowserApplication {
         });
     }
 }
-
-window.addEventListener("DOMContentLoaded", e => {
-    new BrowserApplication;
-});

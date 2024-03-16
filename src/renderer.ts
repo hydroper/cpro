@@ -1,1 +1,1 @@
-import "./browser/BrowserApplication";
+import "./browser/CPRO";

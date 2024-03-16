@@ -1,4 +1,4 @@
-#navigationBar {
+#menuBar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -6,7 +6,7 @@
     -webkit-app-region: drag;
 }
 
-#navigationBar > #left {
+#menuBar > #left {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -14,7 +14,7 @@
     -webkit-app-region: no-drag;
 }
 
-#navigationBar > #right {
+#menuBar > #right {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -22,7 +22,7 @@
     -webkit-app-region: no-drag;
 }
 
-#navigationBar #logo {
+#menuBar #logo {
     font-family: var(--title-font);
     font-size: calc(0.25rem * 5);
     font-weight: lighter;
@@ -37,10 +37,10 @@
     padding: calc(0.25rem * 2);
 }
 
-#navigationBar > #right button {
+#menuBar > #right button {
     padding: calc(0.25rem * 3);
 }
 
-.navigation-bar-button:hover {
+.menu-bar-button:hover {
     opacity: 1;
 }
