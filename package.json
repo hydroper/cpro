@@ -35,6 +35,8 @@
   },
   "dependencies": {
     "assert": "^2.1.0",
+    "com.hydroper.webcontextmenu": "file:../webcontextmenu",
+    "com.hydroper.webinputaction": "^1.1.4",
     "electron-squirrel-startup": "^1.0.0",
     "focus-lock": "^1.0.1"
   }

@@ -1,5 +1,5 @@
 import { NavigationBar } from "./ui/NavigationBar";
-import { ContextMenu, ContextMenuItem, ContextMenuSeparator } from "./ui/ContextMenu";
+import { ContextMenu, ContextMenuItem, ContextMenuSeparator } from "com.hydroper.webcontextmenu";
 
 class BrowserApplication {
     private navigationBar: NavigationBar;
@@ -21,54 +21,57 @@ class BrowserApplication {
 
         const fileButton = this.navigationBar.left.querySelector("#file")!;
         fileButton.addEventListener("mousedown", e => {
-            new ContextMenu([
-                new ContextMenuItem({
-                    title: "New blank file",
-                    action: () => {
-                        alert("New blank file");
-                    },
-                }),
-                new ContextMenuItem({
-                    title: "New project...",
-                    action: () => {},
-                }),
-                new ContextMenuItem({
-                    title: "Temporary",
-                    list: [
-                        new ContextMenuItem({
-                            title: "X",
-                            action: () => {},
-                        }),
-                        new ContextMenuItem({
-                            title: "Y",
-                            list: [
-                                new ContextMenuItem({
-                                    title: "XY",
-                                    action: () => {},
-                                }),
-                            ],
-                        }),
-                    ],
-                }),
-                new ContextMenuItem({
-                    title: "Temporary (2)",
-                    list: [
-                        new ContextMenuItem({
-                            title: "X (2)",
-                            action: () => {},
-                        }),
-                        new ContextMenuItem({
-                            title: "Y (2)",
-                            list: [
-                                new ContextMenuItem({
-                                    title: "XY (2)",
-                                    action: () => {},
-                                }),
-                            ],
-                        }),
-                    ],
-                }),
-            ], fileButton, true);
+            new ContextMenu({
+                items: [
+                    new ContextMenuItem({
+                        title: "New blank file",
+                        action: () => {
+                            alert("New blank file");
+                        },
+                    }),
+                    new ContextMenuItem({
+                        title: "New project...",
+                        action: () => {},
+                    }),
+                    new ContextMenuItem({
+                        title: "Temporary",
+                        list: [
+                            new ContextMenuItem({
+                                title: "X",
+                                action: () => {},
+                            }),
+                            new ContextMenuItem({
+                                title: "Y",
+                                list: [
+                                    new ContextMenuItem({
+                                        title: "XY",
+                                        action: () => {},
+                                    }),
+                                ],
+                            }),
+                        ],
+                    }),
+                    new ContextMenuItem({
+                        title: "Temporary (2)",
+                        list: [
+                            new ContextMenuItem({
+                                title: "X (2)",
+                                action: () => {},
+                            }),
+                            new ContextMenuItem({
+                                title: "Y (2)",
+                                list: [
+                                    new ContextMenuItem({
+                                        title: "XY (2)",
+                                        action: () => {},
+                                    }),
+                                ],
+                            }),
+                        ],
+                    }),
+                ],
+                below: fileButton,
+            });
         });
     }
 }
